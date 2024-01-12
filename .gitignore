@@ -1,0 +1,4 @@
+mkdir src tests docs hardware
+touch src/__init__.py tests/__init__.py
+git add .
+git commit -m "Set up initial project structure"
