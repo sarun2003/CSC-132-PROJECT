@@ -29,5 +29,6 @@ cap.release()
 cv2.destroyAllWindows()
 
 #########################
-#CODE ABOVE IS A BASE, STILL NEEDS OpenCV IMPLIMENTATION! 
+# CODE ABOVE IS A BASE, STILL NEEDS OpenCV IMPLIMENTATION! 
+# NEEDS TTYP3 TEXT TO SPEECH IMPLIMENTATION!
 ########################
