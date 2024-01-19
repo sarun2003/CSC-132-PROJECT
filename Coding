@@ -1,1 +1,33 @@
-Enter your codes
+#######################
+#Code for the pi below#
+#######################
+
+
+import cv2
+import serial
+
+ser = serial.Serial('/dev/ttyUSB0', 9000)  # The port is here, change as needed
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = cap.read()
+    distance = int(ser.readline().decode().strip())
+
+    # object detection logic will go in this area using OpenCV on 'frame' #
+
+    # print the distance in the console
+    print(f"Distance: {distance} cm")
+
+    # display the video feed
+    cv2.imshow('Car Detection', frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+#########################
+#CODE ABOVE IS A BASE, STILL NEEDS OpenCV IMPLIMENTATION! 
+########################
