@@ -1,34 +1,72 @@
-#######################
-#Code for the pi below#
-#######################
+# IMPORT LIBRARIES
+
+import cv2 # THIS LIBRARY IS FOR OBJECT DETECTION
+import pyttsx3 # THIS ONE IS FOR TEXT TO SPEECH
+
+import numpy as np
 
 
-import cv2
-import serial
 
-ser = serial.Serial('/dev/ttyUSB0', 9000)  # The port is here, change as needed
+def objectDetection(frame):
 
-cap = cv2.VideoCapture(0)
+    # OBJECT DETECTION LOGIC GOES HERE
 
-while True:
-    ret, frame = cap.read()
-    distance = int(ser.readline().decode().strip())
+    #############################
+    # EARLY TEST WITH RED OBJECT#
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower_red = np.array([0, 100, 100])
+    upper_red = np.array([10, 255, 255])
+    mask = cv2.inRange(hsv, lower_red, upper_red)
+    #############################
 
-    # object detection logic will go in this area using OpenCV on 'frame' #
+    # FIND CONTOURS
+    contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    # print the distance in the console
-    print(f"Distance: {distance} cm")
+    if contours:
+        x, y, w, h = cv2.boundingRect(contours[0])
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        object_name = "Red Object"  # Change this based on your actual object
 
-    # display the video feed
-    cv2.imshow('Car Detection', frame)
+        print("Detected:", object_name)
+        
+        # USING TEXT TO SPEECH, SAYS THE OBJECT NAME ALOUD.
+        speak(object_name)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    return frame
 
-cap.release()
-cv2.destroyAllWindows()
 
-#########################
-# CODE ABOVE IS A BASE, STILL NEEDS OpenCV IMPLIMENTATION! 
-# NEEDS TTYP3 TEXT TO SPEECH IMPLIMENTATION!
-########################
+
+
+def speak(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
+
+########################################################################
+
+def main():
+    # OPENING THE WEBCAM
+    cap = cv2.VideoCapture(0)
+
+    while True:
+        # GET A FRAME FROM THE WEBCAM
+        ret, frame = cap.read()
+
+        # EXECUTE OBJECT DETECTION
+        frame_with_detection = objectDetection(frame)
+
+        # DISPLAYING THE FRAME
+        cv2.imshow('Object Detection', frame_with_detection)
+
+        # PRESSING "Q" EXITS THE PROGRAM
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    # CLOSE PROGRAM
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()
