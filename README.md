@@ -32,7 +32,7 @@ For additional help, you may raise an issue in the repository.
 - Sandip Thapa
 - Sarun Shrestha
 - Issac Kim
-- Aaron
+- Aaron Larson
 
 ## Version History
 * 0.1
