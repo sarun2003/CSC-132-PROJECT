@@ -3,69 +3,67 @@
 import cv2 # THIS LIBRARY IS FOR OBJECT DETECTION
 import pyttsx3 # THIS ONE IS FOR TEXT TO SPEECH
 
-import numpy as np
+import cv2
+import pyttsx3
 
+def text_to_speech(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
 
+def detect_objects(frame):
+    # Convert the frame to grayscale (makes it easier to distinguish between different colored objects of the same type)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-def objectDetection(frame):
+    # Use a pre-trained Haar Cascade classifier for object detection (WILL NEED TO TRAIN THIS LATER)
+    cascade_path = 'haarcascade_keyboard_mouse.xml'
+    cascade = cv2.CascadeClassifier(cascade_path)
 
-    # OBJECT DETECTION LOGIC GOES HERE
+    # Detect objects in frame
+    objects = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-    #############################
-    # EARLY TEST WITH RED OBJECT#
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    lower_red = np.array([0, 100, 100])
-    upper_red = np.array([10, 255, 255])
-    mask = cv2.inRange(hsv, lower_red, upper_red)
-    #############################
-
-    # FIND CONTOURS
-    contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    if contours:
-        x, y, w, h = cv2.boundingRect(contours[0])
+    for (x, y, w, h) in objects:
+        # Draw rectangles around detected objects
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-        object_name = "Red Object"  # Change this based on your actual object
 
-        print("Detected:", object_name)
-        
-        # USING TEXT TO SPEECH, SAYS THE OBJECT NAME ALOUD.
-        speak(object_name)
+        # Name of the object (customizable. this is also what's read out loud)
+        object_name = "Keyboard and Mouse"
+
+        # Speak out the name of the object (using tts. can change message.)
+        text_to_speech(object_name)
 
     return frame
 
 
 
-
-def speak(text):
-    engine = pyttsx3.init()
-    engine.say(text)
-    engine.runAndWait()
-
-
-########################################################################
+####################################################################################################
 
 def main():
-    # OPENING THE WEBCAM
+    # Set up webcam
     cap = cv2.VideoCapture(0)
 
     while True:
-        # GET A FRAME FROM THE WEBCAM
         ret, frame = cap.read()
 
-        # EXECUTE OBJECT DETECTION
-        frame_with_detection = objectDetection(frame)
+        # Break the loop if issue with webcam
+        if not ret:
+            break
 
-        # DISPLAYING THE FRAME
-        cv2.imshow('Object Detection', frame_with_detection)
+        # Detect objects in frame
+        frame_with_objects = detect_objects(frame)
 
-        # PRESSING "Q" EXITS THE PROGRAM
+        # Display frame
+        cv2.imshow('Object Detection', frame_with_objects)
+
+        # Exit the loop when Q is pressed
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # CLOSE PROGRAM
+    # Release the webcam and close all windows
     cap.release()
     cv2.destroyAllWindows()
+
+
 
 
 if __name__ == "__main__":
