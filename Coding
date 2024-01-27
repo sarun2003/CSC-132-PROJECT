@@ -4,11 +4,10 @@ import sys
 import numpy as np
 import os.path
 import math
-
 from utils.centroidtracker import CentroidTracker
 from utils.trackableobject import TrackableObject
 
-# Initialize 
+# Initialize the parameters
 confThreshold = 0.6  #Confidence threshold
 nmsThreshold = 0.4   #Non-maximum suppression threshold
 inpWidth = 416       #Width of network's input image
@@ -18,7 +17,10 @@ parser = argparse.ArgumentParser(description='Object Detection using YOLO in OPE
 
 parser.add_argument('--video', default='test.mp4', help='Path to video file.')
 args = parser.parse_args()
-        
+
+# FORCES IT TO USE WEBCAM. EVERYTHING ABOVE IS FOR TESTING.
+args = argparse.Namespace(video=None)
+
 # Load names of classes
 classesFile = "coco.names"
 classes = None
@@ -240,3 +242,4 @@ while cv.waitKey(1) < 0:
     vid_writer.write(frame.astype(np.uint8))
 
     cv.imshow(winName, frame)
+
