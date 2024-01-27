@@ -1,39 +1,36 @@
 # IMPORT LIBRARIES
-
-import cv2 # THIS LIBRARY IS FOR OBJECT DETECTION
-import pyttsx3 # THIS ONE IS FOR TEXT TO SPEECH
-
 import cv2
 import pyttsx3
+import time
 
 def text_to_speech(text):
     engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
 
-def detect_objects(frame):
-    # Convert the frame to grayscale (makes it easier to distinguish between different colored objects of the same type)
+def detect_people(frame):
+    # Convert the frame to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # Use a pre-trained Haar Cascade classifier for object detection (WILL NEED TO TRAIN THIS LATER)
-    cascade_path = 'haarcascade_keyboard_mouse.xml'
+    # Use a pre-trained Haar Cascade classifier for pedestrian detection
+    cascade_path = 'haarcascade_fullbody.xml'
     cascade = cv2.CascadeClassifier(cascade_path)
 
-    # Detect objects in frame
-    objects = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    # Detect people in frame
+    people = cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
-    for (x, y, w, h) in objects:
-        # Draw rectangles around detected objects
+    for (x, y, w, h) in people:
+        # Draw rectangles around detected people
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-        # Name of the object (customizable. this is also what's read out loud)
-        object_name = "Keyboard and Mouse"
+    # Name of the object (customizable, but not necessary for people detection)
+    object_name = "Person"
 
-        # Speak out the name of the object (using tts. can change message.)
-        text_to_speech(object_name)
+    # If people are detected, speak out the number of people
+    if len(people) > 0:
+        text_to_speech(f"{len(people)} {object_name}s detected")
 
-    return frame
-
+    return frame, len(people)
 
 
 ####################################################################################################
@@ -42,6 +39,11 @@ def main():
     # Set up webcam
     cap = cv2.VideoCapture(0)
 
+    # Initialize variables for logging
+    log_interval = 60  # Log every 60 seconds
+    last_log_time = time.time()
+    total_people = 0
+
     while True:
         ret, frame = cap.read()
 
@@ -49,11 +51,19 @@ def main():
         if not ret:
             break
 
-        # Detect objects in frame
-        frame_with_objects = detect_objects(frame)
+        # Detect people in frame
+        frame_with_people, num_people = detect_people(frame)
 
         # Display frame
-        cv2.imshow('Object Detection', frame_with_objects)
+        cv2.imshow('People Detection', frame_with_people)
+
+        # Log the number of people every minute
+        current_time = time.time()
+        if current_time - last_log_time >= log_interval:
+            if num_people > 0:
+                print(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {num_people} people detected")
+                total_people += num_people
+            last_log_time = current_time
 
         # Exit the loop when Q is pressed
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -63,8 +73,12 @@ def main():
     cap.release()
     cv2.destroyAllWindows()
 
+    # Print total number of people detected during the session
+    print(f"Total number of people detected: {total_people}")
+
 
 
 
 if __name__ == "__main__":
     main()
+
