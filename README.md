@@ -46,5 +46,5 @@ Special thanks to:
 * The CSC-132 professor Joshua Coriell for his guidance and support.
 * The Raspberry Pi Foundation for their comprehensive documentation.
 * All the contributors who have invested time and effort into making this project beneficial for the visually impaired community.
-* 
 
+  
