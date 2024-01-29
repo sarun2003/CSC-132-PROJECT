@@ -4,8 +4,8 @@ import sys
 import numpy as np
 import os.path
 import math
-from utils.centroidtracker import CentroidTracker
-from utils.trackableobject import TrackableObject
+from Assets.centroidtracker import CentroidTracker
+from Assets.trackableobject import TrackableObject
 import datetime
 
 # Initialize the parameters
