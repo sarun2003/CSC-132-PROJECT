@@ -50,8 +50,7 @@ class OccupancyInterface:
         self.name = self.entry_name.get()
 
         # Log the motion detection event
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_message = f"Motion detected at {timestamp} by {self.name}. Hello {self.name}! How are you?"
+        log_message = f"Motion detected by {self.name}. Hello {self.name}! How are you?\n"
         self.text_logs.insert(tk.END, log_message)
         
         # Update the greeting label
