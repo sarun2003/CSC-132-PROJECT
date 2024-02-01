@@ -6,41 +6,51 @@ class OccupancyInterface:
         self.root = root
         self.root.title("Occupancy Monitoring System")
         
-        #set background color
-        self.root.configure (bg= "#3498db")
+        # Set background color
+        self.root.configure(bg="#3498db")
         
+        self.occupancy_count = 0  # Initialize occupancy count
         self.configure_labels()
         self.configure_buttons()
         self.configure_text_box()
         
-
-        # Create and configure labels
     def configure_labels(self):
-        self.label_status = tk.Label(self.root, text=" Room occupancy counter", font=("Helvetica", 14), bg="#3498db", fg="white")
+        # Room occupancy counter label
+        self.label_status = tk.Label(self.root, text="Room Occupancy Counter", font=("Helvetica", 14), bg="#3498db", fg="white")
         self.label_status.pack(pady=10)
 
-        # Create and configure a button to manually trigger motion
+        # Occupancy count label
+        self.label_count = tk.Label(self.root, text=f"Occupancy Count: {self.occupancy_count}", font=("Helvetica", 14), bg="#3498db", fg="white")
+        self.label_count.pack(pady=10)
+
+    def configure_buttons(self):
+        # Button to manually trigger motion
         self.btn_trigger_motion = tk.Button(self.root, text="START", command=self.trigger_motion, bg="#2ecc71", fg="white")
         self.btn_trigger_motion.pack(pady=10)
 
-        # Create and configure a text box to display logs
-        self.text_logs = tk.Text(self.root, height=20, width=100, fg="#34495e", justify="center")
+    def configure_text_box(self):
+        # Text box to display logs
+        self.text_logs = tk.Text(self.root, height=20, width=100, fg="#34495e")
         self.text_logs.pack(pady=10)
 
     def trigger_motion(self):
+        # Increment and update occupancy count
+        self.occupancy_count += 1
+        self.label_count.config(text=f"Occupancy Count: {self.occupancy_count}")
+
+        # Log the motion detection event
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_message = f" wtf bro {timestamp}\n"
+        log_message = f"Motion detected at {timestamp}\n"
         self.text_logs.insert(tk.END, log_message)
         self.root.update()
-        
 
 if __name__ == "__main__":
     # Create the Tkinter root window
     root = tk.Tk()
+    root.geometry("800x600")  # Set default window size
 
     # Create an instance of the OccupancyInterface class
     occupancy_interface = OccupancyInterface(root)
     
-
     # Run the Tkinter event loop
     root.mainloop()
