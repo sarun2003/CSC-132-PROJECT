@@ -1,4 +1,4 @@
-# Motion Detector for the Visually Impaired (CSC-132-PROJECT)
+# Occupancy Tracker (CSC-132-PROJECT)
 This project is dedicated to developing a motion detection system that assists visually impaired students in navigating through the college campus.
 The system utilizes a Raspberry Pi and a PIR (Passive Infrared) sensor to detect motion and provide auditory alerts for guidance.
 
