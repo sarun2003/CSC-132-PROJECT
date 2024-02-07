@@ -15,7 +15,7 @@ The Occupancy Tracker is designed to offer a sophisticated yet user-friendly sol
 - NumPy for numerical computations
 
 ### Installing
-- Clone this repository to your local machine using `git clone https://github.com/sarun2003/CSC-132-PROJECT.git`.
+- Clone this repository to your local machine using `git clone https://github.com/sarun2003/Occupancy-Tracker.git`.
 - Connect the webcam to the Raspberry Pi according to the instructions provided in the hardware directory.
 - Download the YOLOv3 weights and place them in the model directory.
 - Instructions are provided in the model/README.md.
