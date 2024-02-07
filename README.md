@@ -14,6 +14,11 @@ The Occupancy Tracker is designed to offer a sophisticated yet user-friendly sol
 - OpenCV library for image processing
 - NumPy for numerical computations
 
+### Interface
+- customtkinter library
+- PIL (pillow) library
+- mathplotlib library
+  
 ### Installing
 - Clone this repository to your local machine using `git clone https://github.com/sarun2003/Occupancy-Tracker.git`.
 - Connect the webcam to the Raspberry Pi according to the instructions provided in the hardware directory.
