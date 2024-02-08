@@ -18,60 +18,54 @@ The Occupancy Tracker is designed to offer a sophisticated yet user-friendly sol
 This code snippet outlines a Python application built using customtkinter, an enhanced version of the standard tkinter library, designed for creating custom user interfaces with a modern look. It also integrates matplotlib for plotting graphs, PIL (Python Imaging Library) for image processing, and other standard Python libraries for handling dates, times, and regular expressions. The application appears to be designed for monitoring and displaying occupancy data, possibly for a store or venue, by analyzing entries in a log file and visualizing them in various forms. Let's break down the key components and functionalities of the code:
 
 Import Section
-customtkinter: Used for creating the custom UI components.
-PIL (Python Imaging Library): Handles image loading and manipulation.
-matplotlib: Generates plots to visualize data within the Tkinter application.
-datetime, timedelta: Manages dates and times for data processing and display.
-matplotlib.dates: Provides utilities for formatting dates in plots.
-tkinter.StringVar: A Tkinter variable class used for managing widget values.
-tkinter.messagebox: Displays message boxes for user notifications.
-re (Regular Expressions): Parses strings to extract or match patterns of text.
+-customtkinter: Used for creating the custom UI components.
+-PIL (Python Imaging Library): Handles image loading and manipulation.
+-matplotlib: Generates plots to visualize data within the Tkinter application.
+-datetime, timedelta: Manages dates and times for data processing and display.
+-matplotlib.dates: Provides utilities for formatting dates in plots.
+-tkinter.StringVar: A Tkinter variable class used for managing widget values.
+-tkinter.messagebox: Displays message boxes for user notifications.
+-re (Regular Expressions): Parses strings to extract or match patterns of text.
 
 Main Application Window Setup
 
-Initializes the main window (app) with a fixed size and disables resizing.
+-Initializes the main window (app) with a fixed size and disables resizing.
 
-Configures the application's appearance mode to "light".
+-Configures the application's appearance mode to "light".
 
 Sidebar Setup
 
-Creates a sidebar for additional controls or information display, including a logo loaded from an image file.
+-Creates a sidebar for additional controls or information display, including a logo loaded from an image file.
 
-Data Processing
+-Data Processing
 
-Implements a function (process_data_from_file) to read occupancy data from a log file, parse dates, times, and occupancy counts using regular expressions, and store the data in a dictionary for later use.
+-Implements a function (process_data_from_file) to read occupancy data from a log file, parse dates, times, and occupancy counts using regular expressions, and store the data in a dictionary for later use.
 
 Main View Setup
 
-Sets up the main view area for displaying information and controls related to occupancy data.
+-Sets up the main view area for displaying information and controls related to occupancy data.
 
-Includes a title frame, a search container for user input (e.g., store name and time range selection), and initializes variables for these inputs.
+-Includes a title frame, a search container for user input (e.g., store name and time range selection), and initializes variables for these inputs.
 
-Graph View and Data Visualization
+-Graph View and Data Visualization
 
-Provides functionality to reset the graph view to show overall occupancy data over time.
+-Provides functionality to reset the graph view to show overall occupancy data over time.
 
-Implements functions to update the graph's title and data based on user inputs, such as the selected store name and time range.
+-Implements functions to update the graph's title and data based on user inputs, such as the selected store name and time range.
 
-Includes methods to find and display the busiest and least busy periods within the collected data, showing these times and the corresponding occupancy counts to the user.
+-Includes methods to find and display the busiest and least busy periods within the collected data, showing these times and the corresponding occupancy counts to the user.
 User Interaction
 
-Sets up entry widgets for user input (store name and time range), with event bindings to update the graph or display information based on these inputs.
+-Sets up entry widgets for user input (store name and time range), with event bindings to update the graph or display information based on these inputs.
 
-Configures a combo box for selecting predefined time ranges, which triggers graph updates.
+-Configures a combo box for selecting predefined time ranges, which triggers graph updates.
 
-Graph Initialization and Display
+-Graph Initialization and Display
 
-Initializes a matplotlib figure and axis for plotting occupancy data.
+-Initializes a matplotlib figure and axis for plotting occupancy data.
 
-Adjusts axis formatting and labels to suit the application's needs (e.g., showing hours and occupancy counts).
-E
-mbeds the matplotlib graph in the Tkinter interface using FigureCanvasTkAgg.
-Execution
-
-Ensures the initial display of the graph with mock or pre-processed data when the application starts.
-
-Enters the Tkinter event loop to start the application, making it responsive to user interactions.
+-Adjusts axis formatting and labels to suit the application's needs (e.g., showing hours and occupancy counts).
+ Embeds the matplotlib graph in the Tkinter interface using FigureCanvasTkAgg.
 
 In summary, this application is a sophisticated blend of GUI development with data visualization, designed for interactive analysis and display of occupancy data, demonstrating the integration of multiple Python libraries to create a functional and user-friendly interface.
   
